@@ -20,6 +20,8 @@ In this project, a heart rate measurement device has been developed that uses op
 - **MQTT Protocol:** 
 - **Kubios Cloud:**
 
+![Image](https://github.com/user-attachments/assets/0e31b558-6786-42ec-8760-a10f5f0f4c8c)
+
 ## Installation Instructions
 
 
