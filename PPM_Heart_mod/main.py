@@ -1,4 +1,4 @@
-from PPM_Heart_rate_project.menu import run_menu
+from PPM_Heart_rate_mod.menu import run_menu
 
 def main():
     current_index = 0
