@@ -1,5 +1,5 @@
-from PPM_Heart_rate_mod.oled import show_menu_screen, show_text_screen
-from PPM_Heart_rate_mod.encoder import Encoder
+from PPM_Heart_mod.oled import show_menu_screen, show_text_screen
+from PPM_Heart_mod.encoder import Encoder
 from machine import Pin
 import time
 
