@@ -1,10 +1,12 @@
 from PPM_Heart_mod.oled import show_menu_screen, show_text_screen
 from PPM_Heart_mod.encoder import Encoder
-from machine import Pin
+from ssd1306 import SSD1306_I2C
+from machine import Pin ,I2C
 import time
+i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=400000)
+oled = SSD1306_I2C(128, 64, i2c)
 
-rot = Encoder(10, 11)
-btn_select = Pin(12, Pin.IN, Pin.PULL_UP)
+
 
 def debounce(pin):
     if not pin.value():
@@ -22,6 +24,8 @@ def show_sending_screen():
     time.sleep(2)
 
 def show_error_screen():
+    rot = Encoder(10, 11)
+    btn_select = Pin(12, Pin.IN, Pin.PULL_UP)
     show_text_screen("ERROR SENDING DATA", "Press the button to retry or wait 3 seconds to return to main mnu")
     start = time.ticks_ms()
     while time.ticks_diff(time.ticks_ms(), start) < 3000:
@@ -30,6 +34,8 @@ def show_error_screen():
     return False
 
 def show_result_screen():
+    rot = Encoder(10, 11)
+    btn_select = Pin(12, Pin.IN, Pin.PULL_UP)
     oled.fill(0)
     oled.text("MEAN HR:", 0, 0)
     oled.text("MEAN PPI:", 0, 10)
@@ -41,6 +47,8 @@ def show_result_screen():
     time.sleep(2)
 
 def show_history_list():
+    rot = Encoder(10, 11)
+    btn_select = Pin(12, Pin.IN, Pin.PULL_UP)
     history_items = ["Measuremnt 1", "Measurement 2", "Measurement 3", "Measurement4", "Mesurement5"]
     selected = 0
     while True:
@@ -53,7 +61,8 @@ def show_history_list():
             break
 
 def run_menu(current_index,menu_items):
-    current_index
+    rot = Encoder(10, 11)
+    btn_select = Pin(12, Pin.IN, Pin.PULL_UP)
     last_scroll_time = time.ticks_ms()
 
     while True:

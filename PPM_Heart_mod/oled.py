@@ -12,7 +12,7 @@ def show_menu_screen(items, selected_index):
         if i == selected_index:
             prefix = ">"
         else:
-            prefix + " "
+            prefix = " "
         oled.text(prefix + item, 0, 10 + i * 10)
         i += 1
     oled.show()
