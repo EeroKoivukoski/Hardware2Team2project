@@ -24,9 +24,9 @@ def show_text_screen(title, line2=""):
     oled.text(line2, 0, 20)
     oled.show()
     
-def show_result_screen():
+def show_result_screen(hr):
     oled.fill(0)
-    oled.text("MEAN HR:", 0, 0)
+    oled.text("MEAN HR: "+ str(round(hr)), 0, 0)
     oled.text("MEAN PPI:", 0, 10)
     oled.text("RMSSD:", 0, 20)
     oled.text("SDNN:", 0, 30)

@@ -2,6 +2,7 @@ from oled import show_menu_screen, show_text_screen, show_result_screen
 import encoder
 from machine import Pin
 import time
+from test import calculate_hr
 
 menu_items = [
     "1.Measure HR",
@@ -23,7 +24,8 @@ def debounce(pin):
 
 def show_collecting_screen():
     show_text_screen("Collecting Data...")
-    time.sleep(2)
+    hr=calculate_hr()
+    return hr
 
 def show_sending_screen():
     show_text_screen("Sending Data...")
@@ -69,8 +71,8 @@ def run_menu():
             selected = current_index
 
             if selected == 0:
-                show_collecting_screen()
-                show_result_screen()
+                hr=show_collecting_screen()
+                show_result_screen(hr)
                 update=True
 
             elif selected == 1:
