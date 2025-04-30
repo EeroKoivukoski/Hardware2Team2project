@@ -49,7 +49,8 @@ def calculate_hr():
         if count==0:
             scaled_value = 63 - ( current - min_ ) / ( max_ - min_ ) * 63
             lcd.line ( round ( current_pos ) , round ( scaled_value ) , round ( current_pos ) , round ( previous_value ) , 1 )
-            if current-min_ > ( max_ - min_ ) * 0.6 and haspeaked == False:
+           #get peaks
+           if current-min_ > ( max_ - min_ ) * 0.6 and haspeaked == False:
                 if current - min_ > lastvalue:
                     lastvalue = current - min_
                 elif current - min_ < lastvalue:
@@ -57,7 +58,7 @@ def calculate_hr():
                     lcd.fill_rect ( round (current_pos - 4 ) , round ( previous_value ) , 8 , 8 , 1 )
                     haspeaked = True
                     peaks.append(newtime)
-                    
+            #when new peak is about to come       
             elif current-min_ < (max_- min_) * 0.5 and haspeaked:
                 lastvalue=0
                 haspeaked = False
@@ -65,7 +66,8 @@ def calculate_hr():
             current_pos+=2
             if current_pos >= 128:
                 lcd.fill(0)
-                #animation
+               
+               #animation
                 if calib:
                     lcd.blit(hearts,0, 0)
                 else:
@@ -96,4 +98,4 @@ def calculate_hr():
             for i in range(1,31):
                 calpeaks.append(time.ticks_diff(peaks[i],peaks[i-1]))
             return calpeaks
-print(calculate_hr())
+#print(calculate_hr())
