@@ -11,18 +11,18 @@ def calculate_hr():
     accuracy       = 1 #The less accuracy the faster it calibrates, but the peak to peak diff suffers. (1=highest accuracy)
     
     #variables
-    values         = [] #List to get the last two seconds of values. This is done to get max and min values for scaling.
-    peaks          = [] #Collects the time of a peak to calculate diff later.
-    min_           = 0  #Minimum value in the last two seconds.
-    max_           = 1  #Maximum value in the last two seconds.
-    count          = 0
-    previous_value = 0
-    current_pos    = 0
-    haspeaked      = False
-    lastvalue      = 0
-    update         = False
+    values         = []    #List to get the last two seconds of values. This is done to get max and min values for scaling.
+    peaks          = []    #Collects the time of a peak to calculate diff later.
+    min_           = 0     #Minimum value in the last two seconds.
+    max_           = 1     #Maximum value in the last two seconds.
+    count          = 0     #When looped "accuracy" times, it will visualize the hbm.
+    previous_value = 0     #Last loops scaled value to show the peak block(visualization) correctly.
+    lastvalue      = 0     #Is the last loops unscaled value
+    current_pos    = 0     #Current position on the lcd
+    haspeaked      = False #If a peak happened, it will be true
+    update         = False #If lcd is updated
     
-    #reset lcd
+    #reset lcd just to be sure
     lcd.fill(0)
     lcd.show()
     
@@ -41,7 +41,7 @@ def calculate_hr():
             max_ = max(values)
             values.clear()
             
-        #Only visualize every (accuracy) value   
+        #Only visualize every "accuracy"value   
         if count==0:
             scaled_value = 63 - ( current - min_ ) / ( max_ - min_ ) * 63
             lcd.line ( round ( current_pos ) , round ( scaled_value ) , round ( current_pos ) , round ( previous_value ) , 1 )
@@ -86,5 +86,3 @@ def calculate_hr():
             for i in range(1,30):
                 calpeaks.append(time.ticks_diff(peaks[i],peaks[i-1]))
             return calpeaks
-                                
-print(calculate_hr())
