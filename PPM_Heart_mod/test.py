@@ -1,11 +1,13 @@
 #imports
-import time,framebuf,smiley_bitmap,x_bitmap
+import time,framebuf,smiley_bitmap,x_bitmap,smileyer_bitmap
 from ssd1306  import SSD1306_I2C as screen
 from machine  import Pin, ADC, I2C
 lcd                = screen(128, 64, I2C(1, scl=Pin(15), sda=Pin(14)))
 adc                = ADC(26)
 
 def calculate_hr():
+    lcd.text("Loading...",0,0,1)
+    lcd.show()
     
     #settings
     accuracy       = 1 #The less accuracy the faster it calibrates, but the peak to peak diff suffers. (1=highest accuracy)
@@ -24,11 +26,7 @@ def calculate_hr():
     calib          = False #If calibrated
     hearts = framebuf.FrameBuffer(smiley_bitmap.img, 128, 64, framebuf.MONO_VLSB)
     heartx = framebuf.FrameBuffer(x_bitmap.img, 128, 64, framebuf.MONO_VLSB)
-    
-    
-    #reset lcd just to be sure
-    lcd.fill(0)
-    lcd.show()
+    hearte = framebuf.FrameBuffer(smileyer_bitmap.img, 128, 64, framebuf.MONO_VLSB)
     
     #True loop
     while True:
@@ -93,6 +91,9 @@ def calculate_hr():
             
         #End when you have 30 peaks
         if len(peaks)==31:
+            lcd.blit(hearte,0,0)
+            lcd.show()
+            time.sleep(2)
             #Make a list of peak to peak diff.
             calpeaks=[]
             for i in range(1,31):
