@@ -23,7 +23,6 @@ def debounce(pin):
     return False
 
 def show_collecting_screen():
-    show_text_screen("Collecting Data...")
     hr=calculate_hr()
     return hr
 

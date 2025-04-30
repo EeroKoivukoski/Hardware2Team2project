@@ -12,9 +12,7 @@ def calculate(ppis):
     return [meanhrv,
             meanppi,
             rmssd,
-            sdnn,
-            sns,
-            pns]
+            sdnn]
 
 #calculate mean heart rate value
 def calc_meanhrv(ppis,meanppi):
@@ -46,10 +44,11 @@ def calc_sdnn(ppis):
     deviation = 0
     diffs = calc_ppidiff(ppis)
     meandiffs = sum(diffs)/len(diffs)
-    for z in ppis:
+    print(meandiffs)
+    for z in diffs:
         deviation += (z - meandiffs)**2
-    return sqrt(deviation/(len(ppis)-1))
+    return sqrt(deviation/(len(diffs)-1))
 
 #test
-#ppis = [800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878]
-#print(calculate(ppis))
+ppis = [800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878]
+print(calculate(ppis))

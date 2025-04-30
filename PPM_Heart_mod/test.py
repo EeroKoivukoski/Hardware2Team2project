@@ -98,5 +98,6 @@ def calculate_hr():
             calpeaks=[]
             for i in range(1,31):
                 calpeaks.append(time.ticks_diff(peaks[i],peaks[i-1]))
+            print(len(calpeaks))
             return calpeaks
 #print(calculate_hr())

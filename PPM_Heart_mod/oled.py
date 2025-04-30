@@ -41,8 +41,6 @@ def show_result_screen(hr):
     oled.text("MEAN PPI: " + str(list[1]), 0, 10)
     oled.text("RMSSD: "    + str(list[2]), 0, 20)
     oled.text("SDNN: "     + str(list[3]), 0, 30)
-    oled.text("SNS: "      + str(list[4]), 0, 40)
-    oled.text("PNS: "      + str(list[5]), 0, 50)
     oled.show()
     while not debounce(help):
         pass
