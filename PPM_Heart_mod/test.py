@@ -36,7 +36,7 @@ def calculate_hr():
         values.append(current)
         
         #every 500 values, get min and max values
-        if len(values) >= 500:
+        if len(values) >= 250:
             min_ = min(values)
             max_ = max(values)
             values.clear()
@@ -83,6 +83,7 @@ def calculate_hr():
         if len(peaks)==31:
             #Make a list of peak to peak diff.
             calpeaks=[]
-            for i in range(1,30):
+            for i in range(1,31):
                 calpeaks.append(time.ticks_diff(peaks[i],peaks[i-1]))
             return calpeaks
+#print(calculate_hr())
