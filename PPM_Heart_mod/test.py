@@ -11,9 +11,10 @@ start              = time.ticks_ms()
 def calculate_hr():
     
     #settings
-    accuracy       = 2
+    accuracy       = 1 #The less accuracy the faster it calibrates, but the peak to peak diff suffers.(1=highest accuracy)
+    
     #variables
-    values         = []
+    values         = [] #list to get the last two seconds of values.
     min_           = 0
     max_           = 1
     lastpeak       = 0
@@ -54,10 +55,7 @@ def calculate_hr():
                     newtime = time.ticks_ms()
                     lcd.fill_rect ( round (current_pos - 4 ) , round ( previous_value ) , 8 , 8 , 1 )
                     haspeaked = True
-                    if lastpeak == 0:
-                        peaks.append(newtime-start-lastpeak)
-                    peaks.append(newtime-lastpeak)
-                    lastpeak= newtime - start -lastpeak
+                    peaks.append(newtime)
                     
             elif current-min_ < (max_- min_) * 0.5 and haspeaked:
                 lastvalue=0
@@ -84,9 +82,12 @@ def calculate_hr():
             lcd.show()
             update=False
             
-        #End
-        if len(peaks)==30:
-            end = time.ticks_ms()-start
-            time_taken = end - start
-            return peaks
+        #End when you have 30 peaks
+        if len(peaks)==31:
+            #Make a list of peak to peak diff.
+            calpeaks=[]
+            for i in range(1,30):
+                calpeaks.append(time.ticks_diff(peaks[i],peaks[i-1]))
+            return calpeaks
+                                
 print(calculate_hr())
