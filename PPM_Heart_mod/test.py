@@ -5,29 +5,26 @@ from machine  import Pin, ADC, I2C
 lcd                = screen(128, 64, I2C(1, scl=Pin(15), sda=Pin(14)))
 adc                = ADC(26)
 
-#start timer
-start              = time.ticks_ms()
-
 def calculate_hr():
     
     #settings
-    accuracy       = 1 #The less accuracy the faster it calibrates, but the peak to peak diff suffers.(1=highest accuracy)
+    accuracy       = 1 #The less accuracy the faster it calibrates, but the peak to peak diff suffers. (1=highest accuracy)
     
     #variables
-    values         = [] #list to get the last two seconds of values.
-    min_           = 0
-    max_           = 1
-    lastpeak       = 0
+    values         = [] #List to get the last two seconds of values. This is done to get max and min values for scaling.
+    peaks          = [] #Collects the time of a peak to calculate diff later.
+    min_           = 0  #Minimum value in the last two seconds.
+    max_           = 1  #Maximum value in the last two seconds.
     count          = 0
     previous_value = 0
     current_pos    = 0
     haspeaked      = False
     lastvalue      = 0
-    peaks          = []
     update         = False
     
     #reset lcd
     lcd.fill(0)
+    lcd.show()
     
     #True loop
     while True:
