@@ -76,8 +76,8 @@ def run_menu():
                 update=True
 
             elif selected == 1:
-                show_collecting_screen()
-                show_result_screen()
+                hr=show_collecting_screen()
+                show_result_screen(hr)
                 update=True
 
             elif selected == 2:
@@ -93,4 +93,3 @@ def run_menu():
                 update=True
                 
             time.sleep(1)
-
