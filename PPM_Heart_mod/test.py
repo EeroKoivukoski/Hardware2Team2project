@@ -49,8 +49,8 @@ def calculate_hr():
         if count==0:
             scaled_value = 63 - ( current - min_ ) / ( max_ - min_ ) * 63
             lcd.line ( round ( current_pos ) , round ( scaled_value ) , round ( current_pos ) , round ( previous_value ) , 1 )
-           #get peaks
-           if current-min_ > ( max_ - min_ ) * 0.6 and haspeaked == False:
+            #get peaks
+            if current-min_ > ( max_ - min_ ) * 0.6 and haspeaked == False:
                 if current - min_ > lastvalue:
                     lastvalue = current - min_
                 elif current - min_ < lastvalue:

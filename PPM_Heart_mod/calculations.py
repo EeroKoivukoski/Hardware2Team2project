@@ -1,4 +1,4 @@
-import math
+from math import sqrt
 import test
 
 #call all of the functions and return them in a list
@@ -31,20 +31,25 @@ def calc_meanppi(ppis):
 
 #calculate rmssd
 def calc_rmssd(ppis):
-    meandiff = calc_ppidiff(ppis)
-    squarediff = [j**2 for j in meandiff]
-    meansquared = sum(squarediff) / len(squarediff)
-    return math.sqrt(meansquared)
+    diff = calc_ppidiff(ppis)
+    squarediff = [j**2 for j in diff]
+    meansquared = sum(squarediff) / (len(ppis)-1)
+    return sqrt(meansquared)
     
 
 #calculate the differences in peak to peak intervals (ppi) and compile them into a list.
-def calc_ppidiff(ppis):
+def calc_ppidiff(ppis: list) -> list:
     return [ppis[i+1] - ppis[i] for i in range(len(ppis)-1)]
 
 #calculate sdnn
 def calc_sdnn(ppis):
-    meandiffs = calc_ppidiff(ppis)
+    deviation = 0
+    diffs = calc_ppidiff(ppis)
+    meandiffs = sum(diffs)/len(diffs)
     for z in ppis:
         deviation += (z - meandiffs)**2
     return sqrt(deviation/(len(ppis)-1))
-    
+
+#test
+#ppis = [800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878]
+#print(calculate(ppis))
