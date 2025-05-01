@@ -24,6 +24,7 @@ def calculate_hr():
     haspeaked      = False #If a peak happened, it will be true
     update         = False #If lcd is updated
     calib          = False #If calibrated
+    check          = False
     hearts = framebuf.FrameBuffer(smiley_bitmap.img, 128, 64, framebuf.MONO_VLSB)
     heartx = framebuf.FrameBuffer(x_bitmap.img, 128, 64, framebuf.MONO_VLSB)
     hearte = framebuf.FrameBuffer(smileyer_bitmap.img, 128, 64, framebuf.MONO_VLSB)
@@ -56,6 +57,7 @@ def calculate_hr():
                     lcd.fill_rect ( round (current_pos - 4 ) , round ( previous_value ) , 8 , 8 , 1 )
                     haspeaked = True
                     peaks.append(newtime)
+                    check=True
             #when new peak is about to come       
             elif current-min_ < (max_- min_) * 0.5 and haspeaked:
                 lastvalue=0
@@ -75,29 +77,32 @@ def calculate_hr():
             count=accuracy
         count-=1
         
-        #calibration
-        if min_ <= 15000 or max_ >= 60000:
-            peaks.clear()
-            lcd.rect(0,0,4,4,0)
-            calib=False
-        elif update == True:
-            lcd.rect(0,0,4,4,1)
-            calib=True
-           
+        #calibration :)
+        if len(peaks) % 10==0 and check:
+            calpeaks=[]
+            for i in range(len(peaks)-len(peaks),len(peaks)):
+                calpeaks.append(time.ticks_diff(peaks[i],peaks[i-1]))
+                
+            for i in range(len(calpeaks)-9,len(calpeaks)):
+                if not check:
+                    pass
+                elif calpeaks[i] >= 2000 or calpeaks[i] <= 250:
+                    print(calpeaks[i])
+                    peaks.clear()
+                    lcd.rect(0,0,4,4,0)
+                    calib=False
+                    check=False
+                else:
+                    calib=True
+            #End when you have 30 peaks
+            if len(calpeaks)>=20 and calib==True:
+                lcd.blit(hearte,0,0)
+                lcd.show()
+                time.sleep(2)
+                del calpeaks[0]
+                return calpeaks
         #lcd update
         if update==True:
             lcd.show()
             update=False
-            
-        #End when you have 30 peaks
-        if len(peaks)==31:
-            lcd.blit(hearte,0,0)
-            lcd.show()
-            time.sleep(2)
-            #Make a list of peak to peak diff.
-            calpeaks=[]
-            for i in range(1,31):
-                calpeaks.append(time.ticks_diff(peaks[i],peaks[i-1]))
-            print(len(calpeaks))
-            return calpeaks
-#print(calculate_hr())
+print(calculate_hr())

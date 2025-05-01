@@ -1,5 +1,3 @@
-#Example code for sending a request to Kubios:
-
 import urequests as requests
 import ujson
 import network
