@@ -74,7 +74,7 @@ def run_menu():
                 update=True
 
             elif selected == 3:
-                show_history(oled)
+                show_history(oled, rot)
                 update=True
                 
             time.sleep(1)
