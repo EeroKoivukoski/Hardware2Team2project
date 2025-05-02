@@ -105,4 +105,4 @@ def calculate_hr():
         if update==True:
             lcd.show()
             update=False
-print(calculate_hr())
+#print(calculate_hr()) #Testline, add comment if not already added
