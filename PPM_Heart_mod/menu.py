@@ -4,6 +4,8 @@ import encoder
 from machine import Pin
 import time
 from test import calculate_hr
+from hr_test import calculate_hr as measure_hr
+
 
 menu_items = [
     "1.Measure HR",
@@ -56,12 +58,11 @@ def run_menu():
             selected = current_index
 
             if selected == 0:
-                hr=show_collecting_screen()
-                show_result_screen(hr)
+                measure_hr()
                 update=True
 
             elif selected == 1:
-                hr=show_collecting_screen()
+                hr=calculate_hr()
                 show_result_screen(hr)
                 update=True
 

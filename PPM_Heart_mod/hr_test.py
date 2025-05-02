@@ -21,15 +21,17 @@ def calculate_hr():
     update         = False #If lcd is updated
     calib          = 3     #If calibrated 1 or 2
     check          = False
-    meanppi        =0
-    meanhrv        =0
+    btn_check      = False
+    meanppi        = 0
+    meanhrv        = 0
     hearts = framebuf.FrameBuffer(smiley_bitmap.img, 128, 64, framebuf.MONO_VLSB)
     heartx = framebuf.FrameBuffer(x_bitmap.img, 128, 64, framebuf.MONO_VLSB)
     hearte = framebuf.FrameBuffer(smileyer_bitmap.img, 128, 64, framebuf.MONO_VLSB)
     
     #True loop
     while True:
-        
+        if Pin(12, Pin.IN, Pin.PULL_UP).value():
+            btn_check=True        
         #Get sensor value
         current = adc.read_u16()
         
@@ -108,7 +110,9 @@ def calculate_hr():
         if update==True:
             lcd.show()
             update=False
-        if not Pin(12, Pin.IN, Pin.PULL_UP).value():
-            return
+        if not Pin(12, Pin.IN, Pin.PULL_UP).value() and btn_check:
+            time.sleep(0.15)
+            if not Pin(12, Pin.IN, Pin.PULL_UP).value():
+                return "counted"
 #print(calculate_hr()) #Testline, add comment if not already added
             

@@ -44,6 +44,7 @@ def calc_sdnn(ppis):
     deviation = 0
     diffs = calc_ppidiff(ppis)
     meandiffs = sum(diffs)/len(diffs)
+    #print(meandiffs)
     for z in diffs:
         deviation += (z - meandiffs)**2
     return sqrt(deviation/(len(diffs)-1))
