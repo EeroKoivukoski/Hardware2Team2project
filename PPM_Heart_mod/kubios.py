@@ -1,39 +1,57 @@
-import urequests as requests
-import ujson
-import network
+import network,ujson
 from time import sleep
+from umqtt.simple import MQTTClient
 
-APIKEY = "pbZRUi49X48I56oL1Lq8y8NDjq6rPfzX3AQeNo3a"
-CLIENT_ID = "3pjgjdmamlj759te85icf0lucv"
-CLIENT_SECRET = "111fqsli1eo7mejcrlffbklvftcnfl4keoadrdv1o45vt9pndlef"
+# Replace these values with your own
 
-LOGIN_URL = "https://kubioscloud.auth.eu-west-1.amazoncognito.com/login"
-TOKEN_URL = "https://kubioscloud.auth.eu-west-1.amazoncognito.com/oauth2/token"
-REDIRECT_URI = "https://analysis.kubioscloud.com/v1/portal/login"
 
-response = requests.post(
-    url = TOKEN_URL,
-    data = 'grant_type=client_credentials&client_id={}'.format(CLIENT_ID),
-    headers = {'Content-Type':'application/x-www-form-urlencoded'},
-    auth = (CLIENT_ID, CLIENT_SECRET))
-    response = response.json() #Parse JSON response into a python dictionary
-    access_token = response["access_token"] #Parse access token
+def kubiosconnecton(data):
+    global msg
+    json={"id":223,"type":"RRI","data":data,"analysis":{"type":"readiness"}}
+    answer="Nan"
+    json=ujson.dumps(json)
+    #Connect to WLAN
+    connect_wlan()
+    # Connect to MQTT
+    try:
+        mqtt_client=connect_mqtt()
+    except Exception as e:
+        print(f"Failed to connect to MQTT: {e}")
+        
+    mqtt_client.set_callback(callbackfunction)
     
-#Interval data to be sent to Kubios Cloud. Replace with your own data:
-intervals = [828, 836, 852, 760, 800, 796, 856, 824, 808, 776, 724, 816, 800, 812, 812, 812,
-756, 820, 812, 800]
+    topic = "kubios-request"
+    massage = json
+    mqtt_client.publish(topic, json)
+    mqtt_client.subscribe("kubios-response")
+    data = None
+    mqtt_client.wait_msg()
+    msg=parse_json(msg)
+    return msg
 
-#Create the dataset dictionary HERE
+def parse_json(list):
+    return [list["data"]["analysis"]["mean_hr_bpm"],list["data"]["analysis"]["mean_rr_ms"],list["data"]["analysis"]["rmssd_ms"],list["data"]["analysis"]["sdnn_ms"],list["data"]["analysis"]["sns_index"],list["data"]["analysis"]["pns_index"],list["data"]["analysis"]["physiological_age"]]
+    
+def callbackfunction(topic,message):
+    global msg
+    msg = ujson.loads(message)
 
-# Make the readiness analysis with the given data
-response = requests.post(
-    url = "https://analysis.kubioscloud.com/v2/analytics/analyze",
-    headers = { "Authorization": "Bearer {}".format(access_token), #use access token to
-access your Kubios Cloud analysis session
- "X-Api-Key": APIKEY},
- json = dataset) #dataset will be automatically converted to JSON by the urequests
-library
+def connect_wlan():
+        # Connecting to the group WLAN
+        wlan = network.WLAN(network.STA_IF)
+        wlan.active(True)
+        wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
+        # Attempt to connect once per second
+        while wlan.isconnected() == False:
+            print("Connecting... ")
+            sleep(1)
+         # Print the IP address of the Pico
+        print("Connection successful. Pico IP:", wlan.ifconfig()[0])
+        
+def connect_mqtt():
+        mqtt_client=MQTTClient("", "192.168.2.253",port=21883)
+        mqtt_client.connect(clean_session=True)
+        return mqtt_client
+#list=kubiosconnecton([800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878,800,750,700,900,950,888,777,999,666,878])
 
-response = response.json()
-
-#Print out the SNS and PNS values on the OLED screen here
+print()

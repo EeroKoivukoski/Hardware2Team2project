@@ -45,6 +45,26 @@ def show_result_screen(hr):
     oled.text("RMSSD:  " + str(int(result[2])), 0, 20)
     oled.text("SDNN:   " + str(int(result[3])), 0, 30)
     oled.show()
-
+    
+def show_result_screen_kubios(result):
+    help_btn = Pin(12, Pin.IN, Pin.PULL_UP)
+    #Mean hr, rr/ppi, rmssd, sdnn, sns, pns, age 
+    oled.fill(0)
+    oled.text(f"MEAN HR:   {result[0]}", 0, 0)
+    oled.text(f"MEAN PPI:  {result[1]}", 0, 9)
+    oled.text(f"RMSSD:     {result[2]:.2f}", 0, 18)
+    oled.text(f"SDNN:      {result[3]:.2f}", 0, 27)
+    oled.text(f"SNS:       {result[4]:.2f}", 0, 36)
+    oled.text(f"PNS:       {result[5]:.2f}", 0, 45)
+    oled.text(f"Phys. Age: {result[6]:.2f}", 0, 54)
+    print(f"MEAN HR:  {result[0]}")
+    print(f"MEAN PPI: {result[1]}")
+    print(f"RMSSD:    {result[2]:.2f}")
+    print(f"SDNN:     {result[3]:.2f}")
+    print(f"SNS:      {result[4]:.2f}")
+    print(f"PNS:      {result[5]:.2f}")
+    print(f"Phys.Age: {result[6]:.2f}")
+    
+    oled.show()
     while help_btn.value():
         time.sleep(0.01)

@@ -1,10 +1,11 @@
-from oled import show_menu_screen, show_text_screen, show_result_screen, oled
+from oled import show_menu_screen, show_text_screen, show_result_screen,show_result_screen_kubios, oled
 from history import show_history
 import encoder
 from machine import Pin
 import time
 from test import calculate_hr
 from hr_test import calculate_hr as measure_hr
+from kubios import kubiosconnecton,callbackfunction
 
 
 menu_items = [
@@ -27,10 +28,6 @@ def debounce(pin):
 def show_collecting_screen():
     hr=calculate_hr()
     return hr
-
-def show_sending_screen():
-    show_text_screen("Sending Data...")
-    time.sleep(2)
 
 def show_error_screen():
     show_text_screen("ERROR SENDING DATA", "Press the button to retry or wait 3 seconds to return to main mnu")
@@ -67,11 +64,8 @@ def run_menu():
                 update=True
 
             elif selected == 2:
-                show_collecting_screen()
-                show_sending_screen()
-                if show_error_screen():
-                    show_sending_screen()
-                show_result_screen()
+                hr=kubiosconnecton(calculate_hr())
+                show_result_screen_kubios(hr)
                 update=True
 
             elif selected == 3:
