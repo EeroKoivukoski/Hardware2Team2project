@@ -39,7 +39,7 @@ def calculate_hr():
         values.append(current)
         
         #every 500 values, get min and max values
-        if len(values) >= 250:
+        if len(values) >= 500:
             min_ = min(values)
             max_ = max(values)
             values.clear()

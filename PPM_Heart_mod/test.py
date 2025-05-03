@@ -6,6 +6,7 @@ lcd                = screen(128, 64, I2C(1, scl=Pin(15), sda=Pin(14)))
 adc                = ADC(26)
 
 def calculate_hr():
+    lcd.fill(0)
     lcd.text("Loading...",0,0,1)
     lcd.show()
     
@@ -39,7 +40,7 @@ def calculate_hr():
         values.append(current)
         
         #every 500 values, get min and max values
-        if len(values) >= 250:
+        if len(values) >= 500:
             min_ = min(values)
             max_ = max(values)
             values.clear()
