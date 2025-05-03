@@ -30,7 +30,7 @@ def show_collecting_screen():
     return hr
 
 def show_error_screen():
-    show_text_screen("ERROR SENDING DATA", "Press the button to retry or wait 3 seconds to return to main mnu")
+    show_text_screen("ERROR SENDING DATA", "Press the button to retry or wait 3 seconds to return to main menu")
     start = time.ticks_ms()
     while time.ticks_diff(time.ticks_ms(), start) < 3000:
         if not btn_select.value():
