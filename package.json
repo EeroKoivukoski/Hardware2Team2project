@@ -18,7 +18,6 @@
     ["smileyer_bitmap.py", "http://localhost:8000/smileyer_bitmap.py"],
     ["smiley_bitmap.py", "http://localhost:8000/smiley_bitmap.py"],
     ["x_bitmap.py", "http://localhost:8000/x_bitmap.py"]
-    ,
   ],
   "deps": [
   ],
