@@ -1,12 +1,24 @@
 {
   "urls": [
     ["test.py", "http://localhost:8000/test.py"],
-    ["lib/filefifo.py", "http://localhost:8000/pico-lib/filefifo.py"],	
-    ["lib/fifo.py", "http://localhost:8000/pico-lib/fifo.py"],
-    ["lib/piotimer.py", "http://localhost:8000/pico-lib/piotimer.py"],
-    ["lib/led.py", "http://localhost:8000/pico-lib/led.py"],
-    ["lib/ssd1306.mpy", "http://localhost:8000/pico-lib/ssd1306.mpy"],
-    ["lib/umqtt/simple.mpy", "http://localhost:8000/pico-lib/umqtt/simple.mpy"]
+    ["lib/filefifo.py", "http://localhost:8000/lib/filefifo.py"],	
+    ["lib/fifo.py", "http://localhost:8000/lib/fifo.py"],
+    ["lib/piotimer.py", "http://localhost:8000/lib/piotimer.py"],
+    ["lib/led.py", "http://localhost:8000/lib/led.py"],
+    ["lib/ssd1306.mpy", "http://localhost:8000/lib/ssd1306.mpy"],
+    ["lib/umqtt/simple.mpy", "http://localhost:8000/lib/umqtt/simple.mpy"],
+    ["main.py", "http://localhost:8000/main.py"],
+    ["calculations.py", "http://localhost:8000/calculations.py"],
+    ["encoder.py", "http://localhost:8000/encoder.py"],
+    ["history.py", "http://localhost:8000/history.py"],
+    ["hr_test.py", "http://localhost:8000/hr_test.py"],
+    ["kubios.py", "http://localhost:8000/kubios.py"],
+    ["menu.py", "http://localhost:8000/menu.py"],
+    ["oled.py", "http://localhost:8000/oled.py"],
+    ["smileyer_bitmap.py", "http://localhost:8000/smileyer_bitmap.py"],
+    ["smiley_bitmap.py", "http://localhost:8000/smiley_bitmap.py"],
+    ["x_bitmap.py", "http://localhost:8000/x_bitmap.py"]
+    ,
   ],
   "deps": [
   ],
