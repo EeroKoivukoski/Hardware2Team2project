@@ -14,11 +14,21 @@ def save_result(result):
         time_string = str(t[2]) + "." + str(t[1]) + "." + str(t[0]) + " " + hour + ":" + minute
 
         f = open("history.txt", "a")
-        f.write(time_string + " " +
-                "HR:" + str(int(result[0])) + " " +
-                "PPI:" + str(int(result[1])) + " " +
-                "RMSSD:" + str(int(result[2])) + " " +
-                "SDNN:" + str(int(result[3])) + "\n")
+        if len(result)==4:
+            f.write(time_string + " " +
+                    "HR:" + str(int(result[0])) + " " +
+                    "PPI:" + str(int(result[1])) + " " +
+                    "RMSSD:" + str(int(result[2])) + " " +
+                    "SDNN:" + str(int(result[3])) + "\n")
+        else:
+            f.write(time_string + " " +
+                    "HR:" + str(int(result[0])) + " " +
+                    "PPI:" + str(int(result[1])) + " " +
+                    "RMSSD:" + str(int(result[2])) + " " +
+                    "SDNN:" + str(int(result[3])) + " " +
+                    "SNS:" + str(result[4]) + " " +
+                    "PNS:" + str(result[5]) + " " +
+                    "Phys.Age:" + str(result[6]) + "\n")
         f.close()
     except:
         pass
@@ -67,7 +77,7 @@ def show_history(oled, rot):
                 else:
                     line = " MEASUREMENT " + str(entry_num)
                 oled.text(line, 0, 10 + i * 10)
-            i = i + 1
+            i += 1
 
         oled.show()
 
@@ -76,7 +86,7 @@ def show_history(oled, rot):
             selected = selected + move
             if selected < 0:
                 selected = 0
-            if selected >= count:
+            elif selected >= count:
                 selected = count - 1
 
         if btn.value() == 0:
@@ -96,6 +106,9 @@ def show_entry_detail(oled, line):
     value4 = ""  # PPI
     value5 = ""  # RMSSD
     value6 = ""  # SDNN
+    value7 = ""  # SNS
+    value8 = ""  # PNS
+    value9 = ""  # phys age
 
     index = 0
     current = ""
@@ -115,18 +128,30 @@ def show_entry_detail(oled, line):
                 value5 = current
             elif index == 5:
                 value6 = current
+            elif index == 6:
+                value7 = current
+            elif index == 7:
+                value8 = current
+            elif index == 8:
+                value9 = current
             current = ""
-            index = index + 1
+            index += 1
         else:
             current = current + c
         i = i + 1
 
     oled.fill(0)
     oled.text(value1 + " " + value2, 0, 0)
-    oled.text(value3, 0, 10)
-    oled.text(value4, 0, 20)
-    oled.text(value5, 0, 30)
-    oled.text(value6, 0, 40)
+    oled.text(value3, 0, 9)
+    oled.text(value4, 54, 9)
+    oled.text(value5, 0, 18)
+    oled.text(value6, 0, 27)
+    if value7 != "":
+        oled.text(value7, 0, 36)
+    if value8 != "":
+        oled.text(value8, 0, 45)
+    if value9 != "":
+        oled.text(value9, 0, 54)
     oled.show()
 
     while btn.value():

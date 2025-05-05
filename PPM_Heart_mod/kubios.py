@@ -11,8 +11,10 @@ def kubiosconnecton(data):
     answer="Nan"
     json=ujson.dumps(json)
     #Connect to WLAN
-    connect_wlan()
+    netti=connect_wlan()
     # Connect to MQTT
+    if not netti:
+        return False
     try:
         mqtt_client=connect_mqtt()
     except Exception as e:
@@ -37,16 +39,24 @@ def callbackfunction(topic,message):
     msg = ujson.loads(message)
 
 def connect_wlan():
-        # Connecting to the group WLAN
-        wlan = network.WLAN(network.STA_IF)
-        wlan.active(True)
+    x=10
+    # Connecting to the group WLAN
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
+    # Attempt to connect once per second
+    while wlan.isconnected() == False and x!=10:
         wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
-        # Attempt to connect once per second
-        while wlan.isconnected() == False:
-            print("Connecting... ")
-            sleep(1)
-         # Print the IP address of the Pico
+        print("Connecting... ")
+        sleep(10)
+        x+=1
+    # Print the IP address of the Pico
+    if wlan.isconnected():
         print("Connection successful. Pico IP:", wlan.ifconfig()[0])
+        return True
+    else:
+        print("connection not success")
+        return False
         
 def connect_mqtt():
         mqtt_client=MQTTClient("", "192.168.2.253",port=21883)

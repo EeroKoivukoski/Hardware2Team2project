@@ -48,7 +48,8 @@ def show_result_screen(hr):
     
 def show_result_screen_kubios(result):
     help_btn = Pin(12, Pin.IN, Pin.PULL_UP)
-    #Mean hr, rr/ppi, rmssd, sdnn, sns, pns, age 
+    #Mean hr, rr/ppi, rmssd, sdnn, sns, pns, age
+    save_result(result)
     oled.fill(0)
     oled.text(f"MEAN HR:   {result[0]}", 0, 0)
     oled.text(f"MEAN PPI:  {result[1]}", 0, 9)

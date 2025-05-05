@@ -65,8 +65,9 @@ def run_menu():
 
             elif selected == 2:
                 hr=kubiosconnecton(calculate_hr())
-                show_result_screen_kubios(hr)
-                update=True
+                if hr:
+                    show_result_screen_kubios(hr)
+                    update=True
 
             elif selected == 3:
                 show_history(oled, rot)
