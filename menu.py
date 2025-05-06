@@ -72,5 +72,3 @@ def run_menu():
             elif selected == 3:
                 show_history(oled, rot)
                 update=True
-                
-            time.sleep(1)

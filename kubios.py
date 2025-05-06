@@ -1,11 +1,18 @@
 import network,ujson
 from time import sleep
 from umqtt.simple import MQTTClient
+from oled import oled
+import encoder
+rot = encoder.Encoder(10, 11)
 
 # Replace these values with your own
 
 
 def kubiosconnecton(data):
+    oled.text("Connecting to",0,0,1)
+    oled.text("Kubios ...",0,9,1)
+    if rot.fifo.has_data():
+            rot.fifo.get()
     global msg
     json={"id":223,"type":"RRI","data":data,"analysis":{"type":"readiness"}}
     answer="Nan"
@@ -14,6 +21,8 @@ def kubiosconnecton(data):
     netti=connect_wlan()
     # Connect to MQTT
     if not netti:
+        if rot.fifo.has_data():
+            rot.fifo.get()
         return False
     try:
         mqtt_client=connect_mqtt()
@@ -27,7 +36,11 @@ def kubiosconnecton(data):
     mqtt_client.publish(topic, json)
     mqtt_client.subscribe("kubios-response")
     data = None
+    if rot.fifo.has_data():
+            rot.fifo.get()
     mqtt_client.wait_msg()
+    if rot.fifo.has_data():
+            rot.fifo.get()
     msg=parse_json(msg)
     return msg
 
@@ -39,23 +52,34 @@ def callbackfunction(topic,message):
     msg = ujson.loads(message)
 
 def connect_wlan():
-    x=10
+    oled.text("Connecting wlan...",0,0,1)
+    oled.show()
+    x=0
     # Connecting to the group WLAN
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
     # Attempt to connect once per second
-    while wlan.isconnected() == False and x!=10:
+    while wlan.isconnected() == False and x!=5:
         wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
         print("Connecting... ")
-        sleep(10)
+        sleep(1)
         x+=1
+        if rot.fifo.has_data():
+            rot.fifo.get()
     # Print the IP address of the Pico
     if wlan.isconnected():
         print("Connection successful. Pico IP:", wlan.ifconfig()[0])
         return True
     else:
         print("connection not success")
+        oled.fill(0)
+        oled.text("connecton not",0,0,1)
+        oled.text("success.......",0,9,1)
+        oled.show()
+        if rot.fifo.has_data():
+            rot.fifo.get()
+        sleep(2)
         return False
         
 def connect_mqtt():

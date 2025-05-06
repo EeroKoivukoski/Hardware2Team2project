@@ -1,7 +1,8 @@
 #imports
-import time,framebuf,smiley_bitmap,x_bitmap,smileyer_bitmap
+import time,framebuf,smiley_bitmap,x_bitmap,smileyer_bitmap,encoder
 from ssd1306  import SSD1306_I2C as screen
 from machine  import Pin, ADC, I2C
+rot = encoder.Encoder(10, 11)
 lcd                = screen(128, 64, I2C(1, scl=Pin(15), sda=Pin(14)))
 adc                = ADC(26)
 
@@ -32,6 +33,8 @@ def calculate_hr():
     
     #True loop
     while True:
+        if rot.fifo.has_data():
+            rot.fifo.get()
         
         #Get sensor value
         current = adc.read_u16()

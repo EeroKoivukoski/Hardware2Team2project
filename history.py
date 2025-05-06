@@ -81,7 +81,7 @@ def show_history(oled, rot):
 
         oled.show()
 
-        if rot.fifo.has_data():
+        while rot.fifo.has_data():
             move = rot.fifo.get()
             selected = selected + move
             if selected < 0:
@@ -91,11 +91,9 @@ def show_history(oled, rot):
 
         if btn.value() == 0:
             while btn.value() == 0:
-                time.sleep(0.01)
+                pass
             show_entry_detail(oled, entries[selected])
             return
-
-        time.sleep(0.05)
 
 def show_entry_detail(oled, line):
     btn = Pin(12, Pin.IN, Pin.PULL_UP)

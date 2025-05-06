@@ -2,8 +2,11 @@
 import time,framebuf,smiley_bitmap,x_bitmap,smileyer_bitmap
 from ssd1306  import SSD1306_I2C as screen
 from machine  import Pin, ADC, I2C
+import encoder
+rot = encoder.Encoder(10, 11)
 lcd                = screen(128, 64, I2C(1, scl=Pin(15), sda=Pin(14)))
 adc                = ADC(26)
+btn                =Pin(12, Pin.IN, Pin.PULL_UP)
 
 def calculate_hr():
     lcd.fill(0)
@@ -30,7 +33,9 @@ def calculate_hr():
     
     #True loop
     while True:
-        if Pin(12, Pin.IN, Pin.PULL_UP).value():
+        if rot.fifo.has_data():
+            rot.fifo.get()
+        if btn.value():
             btn_check=True        
         #Get sensor value
         current = adc.read_u16()
@@ -110,9 +115,9 @@ def calculate_hr():
         if update==True:
             lcd.show()
             update=False
-        if not Pin(12, Pin.IN, Pin.PULL_UP).value() and btn_check:
+        if not btn.value() and btn_check:
             time.sleep(0.15)
-            if not Pin(12, Pin.IN, Pin.PULL_UP).value():
+            if not btn.value():
                 return "counted"
 #print(calculate_hr()) #Testline, add comment if not already added
             
