@@ -105,7 +105,6 @@ def calculate_hr():
                 sum = 0
                 for i in calpeaks:
                     sum += i
-                print(len(calpeaks))
                 meanppi=sum/len(calpeaks)
                 meanhrv=60/(meanppi/1000)
                 peaks.clear()
