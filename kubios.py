@@ -63,7 +63,7 @@ def connect_wlan():
     while wlan.isconnected() == False and x!=5:
         wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
         print("Connecting... ")
-        sleep(1)
+        sleep(5)
         x+=1
         if rot.fifo.has_data():
             rot.fifo.get()
@@ -72,7 +72,6 @@ def connect_wlan():
         print("Connection successful. Pico IP:", wlan.ifconfig()[0])
         return True
     else:
-        print("connection not success")
         oled.fill(0)
         oled.text("connecton not",0,0,1)
         oled.text("success.......",0,9,1)

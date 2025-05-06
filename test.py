@@ -1,5 +1,8 @@
 #imports
-import time,framebuf,smiley_bitmap,x_bitmap,smileyer_bitmap,encoder
+import time,framebuf,encoder
+import animations.smiley_bitmap as smile_heart
+import animations.x_bitmap as x_heart
+import animations.smileyer_bitmap as smilest_heart
 from ssd1306  import SSD1306_I2C as screen
 from machine  import Pin, ADC, I2C
 rot = encoder.Encoder(10, 11)
@@ -27,9 +30,9 @@ def calculate_hr():
     update         = False #If lcd is updated
     calib          = False #If calibrated
     check          = False
-    hearts = framebuf.FrameBuffer(smiley_bitmap.img, 128, 64, framebuf.MONO_VLSB)
-    heartx = framebuf.FrameBuffer(x_bitmap.img, 128, 64, framebuf.MONO_VLSB)
-    hearte = framebuf.FrameBuffer(smileyer_bitmap.img, 128, 64, framebuf.MONO_VLSB)
+    hearts = framebuf.FrameBuffer(smile_heart.img, 128, 64, framebuf.MONO_VLSB)
+    heartx = framebuf.FrameBuffer(x_heart.img, 128, 64, framebuf.MONO_VLSB)
+    hearte = framebuf.FrameBuffer(smilest_heart.img, 128, 64, framebuf.MONO_VLSB)
     
     #True loop
     while True:
