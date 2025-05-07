@@ -68,16 +68,10 @@ def show_result_screen_kubios(result):
     oled.text(f"SNS:       {result[4]:.2f}", 0, 36)
     oled.text(f"PNS:       {result[5]:.2f}", 0, 45)
     oled.text(f"Phys. Age: {result[6]:.2f}", 0, 54)
-    print(f"MEAN HR:  {result[0]}")
-    print(f"MEAN PPI: {result[1]}")
-    print(f"RMSSD:    {result[2]:.2f}")
-    print(f"SDNN:     {result[3]:.2f}")
-    print(f"SNS:      {result[4]:.2f}")
-    print(f"PNS:      {result[5]:.2f}")
-    print(f"Phys.Age: {result[6]:.2f}")
     
     oled.show()
     while help_btn.value():
         if rot.fifo.has_data():
             rot.fifo.get()
-        time.sleep(0.01)
+    while not help_btn.value():
+        pass

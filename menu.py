@@ -9,10 +9,10 @@ from kubios import kubiosconnecton,callbackfunction
 
 
 menu_items = [
-    "1.Measure HR",
-    "2.Basic HRV Analysis",
-    "3.Kubios",
-    "4.History"
+    "Measure HR",
+    "HRV Analysis",
+    "Kubios Analysis",
+    "HRV History"
 ]
 
 rot = encoder.Encoder(10, 11)
@@ -30,7 +30,8 @@ def show_collecting_screen():
     return hr
 
 def show_error_screen():
-    show_text_screen("ERROR SENDING DATA", "Press the button to retry or wait 3 seconds to return to main menu")
+    show_text_screen("Press button to retry",
+                     "or wait 3s for menu")
     start = time.ticks_ms()
     while time.ticks_diff(time.ticks_ms(), start) < 3000:
         if not btn_select.value():
@@ -64,10 +65,16 @@ def run_menu():
                 update=True
 
             elif selected == 2:
-                hr=kubiosconnecton(calculate_hr())
-                if hr:
-                    show_result_screen_kubios(hr)
-                    update=True
+                check=True
+                while check:
+                    hr=kubiosconnecton(calculate_hr())
+                    if hr:
+                        show_result_screen_kubios(hr)
+                        check=False
+                    else:
+                        check=show_error_screen()
+                update=True
+                
 
             elif selected == 3:
                 show_history(oled, rot)

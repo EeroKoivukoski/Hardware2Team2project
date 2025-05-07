@@ -2,6 +2,7 @@ import network,ujson,time
 from umqtt.simple import MQTTClient
 from oled import oled
 import encoder
+from led import Led
 rot = encoder.Encoder(10, 11)
 
 # Replace these values with your own
@@ -73,6 +74,9 @@ def connect_wlan():
     # Print the IP address of the Pico
     if wlan.isconnected():
         print("Connection successful. Pico IP:", wlan.ifconfig()[0])
+        led=Led(22)
+        led.on()
+        led.brightness(20)
         return True
     else:
         oled.fill(0)
