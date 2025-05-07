@@ -19,7 +19,6 @@ def intro():
         oled.blit(L,42,x-64)
         oled.show()
         x+=1
-    x=0
     for _ in range(4):
         oled.invert(1)
         oled.show()
@@ -28,13 +27,7 @@ def intro():
         oled.show()
         time.sleep(0.1)
 
-    for _ in range (20):
-        x+=1
-        oled.contrast(x*30)
-        time.sleep(0.3)
-        if x >= 10:
-            x=0
-        oled.contrast(255)
+    
         
 if __name__ == "__main__":
     main()

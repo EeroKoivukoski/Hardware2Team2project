@@ -1,5 +1,4 @@
-import network,ujson
-from time import sleep
+import network,ujson,time
 from umqtt.simple import MQTTClient
 from oled import oled
 import encoder
@@ -52,18 +51,22 @@ def callbackfunction(topic,message):
     msg = ujson.loads(message)
 
 def connect_wlan():
-    oled.text("Connecting wlan...",0,0,1)
-    oled.show()
     x=0
     # Connecting to the group WLAN
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
     # Attempt to connect once per second
-    while wlan.isconnected() == False and x!=5:
+    while wlan.isconnected() == False and x!=3:
         wlan.connect("KMD657_Group_2", "6yhm2EHS@1")
         print("Connecting... ")
-        sleep(5)
+        for _ in range (20):
+            x+=1
+            oled.contrast(x*30)
+            time.sleep(0.3)
+            if x >= 10:
+                x=0
+        oled.contrast(255)
         x+=1
         if rot.fifo.has_data():
             rot.fifo.get()
@@ -78,7 +81,7 @@ def connect_wlan():
         oled.show()
         if rot.fifo.has_data():
             rot.fifo.get()
-        sleep(2)
+        time.sleep(2)
         return False
         
 def connect_mqtt():
