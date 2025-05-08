@@ -53,9 +53,11 @@ def show_result_screen(hr):
     oled.text("RMSSD:  " + str(int(result[2])), 0, 20)
     oled.text("SDNN:   " + str(int(result[3])), 0, 30)
     oled.show()
-    if rot.fifo.has_data():
+    while help_btn.value():
+        if rot.fifo.has_data():
             rot.fifo.get()
-    
+    while not help_btn.value():
+        pass
 def show_result_screen_kubios(result):
     help_btn = Pin(12, Pin.IN, Pin.PULL_UP)
     #Mean hr, rr/ppi, rmssd, sdnn, sns, pns, age
