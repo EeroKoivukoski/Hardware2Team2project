@@ -15,9 +15,12 @@
     ["kubios.py", "http://localhost:8000/kubios.py"],
     ["menu.py", "http://localhost:8000/menu.py"],
     ["oled.py", "http://localhost:8000/oled.py"],
-    ["smileyer_bitmap.py", "http://localhost:8000/smileyer_bitmap.py"],
-    ["smiley_bitmap.py", "http://localhost:8000/smiley_bitmap.py"],
-    ["x_bitmap.py", "http://localhost:8000/x_bitmap.py"]
+    ["animations/smileyer_bitmap.py", "http://localhost:8000/animations/smileyer_bitmap.py"],
+    ["animations/smiley_bitmap.py", "http://localhost:8000/animations/smiley_bitmap.py"],
+    ["animations/x_bitmap.py", "http://localhost:8000/animations/x_bitmap.py"],
+	["animations/SE_bitmap.py", "http://localhost:8000/animations/SE_bitmap.py"],
+	["animations/PU_bitmap.py", "http://localhost:8000/animations/PU_bitmap.py"],
+	["animations/Lightning_bitmap.py", "http://localhost:8000/animations/Lightning_bitmap.py"]
   ],
   "deps": [
   ],

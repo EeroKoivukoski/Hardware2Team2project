@@ -1,6 +1,3 @@
-cd C:\Users\Eerok\OneDrive\Tiedostot\GitHub\Hardware2Team2project
-copy micro.uf2 E:\
-timeout /t 10 /nobreak >nul
 @echo off
 start "mpremote.webserver" python -m http.server
 @rem Extract comport name where pico is connected
