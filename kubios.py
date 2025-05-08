@@ -1,7 +1,7 @@
 import network,ujson,time
 from umqtt.simple import MQTTClient
 from oled import oled
-import encoder
+import encoder, machine
 from led import Led
 rot = encoder.Encoder(10, 11)
 
@@ -74,6 +74,7 @@ def connect_wlan():
     # Print the IP address of the Pico
     if wlan.isconnected():
         print("Connection successful. Pico IP:", wlan.ifconfig()[0])
+        machine.RTC().datetime()
         led=Led(22)
         led.on()
         led.brightness(20)
