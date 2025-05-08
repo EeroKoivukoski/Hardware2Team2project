@@ -5,7 +5,7 @@ from machine import Pin
 import time
 from test import calculate_hr
 from hr_test import calculate_hr as measure_hr
-from kubios import kubiosconnecton,callbackfunction
+from kubios import kubiosconnecton,callbackfunction,send_data
 
 
 menu_items = [
@@ -70,6 +70,7 @@ def run_menu():
                     hr=kubiosconnecton(calculate_hr())
                     if hr:
                         show_result_screen_kubios(hr)
+                        send_data(hr)
                         check=False
                     else:
                         check=show_error_screen()

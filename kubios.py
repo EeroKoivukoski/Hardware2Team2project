@@ -1,4 +1,4 @@
-import network,ujson,time
+import network,ujson,time,ntptime
 from umqtt.simple import MQTTClient
 from oled import oled
 import encoder, machine
@@ -43,7 +43,40 @@ def kubiosconnecton(data):
             rot.fifo.get()
     msg=parse_json(msg)
     return msg
-
+def send_data(data):
+    oled.text("Connecting to",0,0,1)
+    oled.text("Kubios ...",0,9,1)
+    if rot.fifo.has_data():
+            rot.fifo.get()
+    json = {
+ "id": time.mktime(time.localtime()),
+ "timestamp": time.mktime(time.localtime()),
+ "mean_hr": data[0],
+ "mean_ppi": data[1],
+ "rmssd": data[2],
+ "sdnn": data[3],
+ "sns": data[4],
+ "pns": data[5],
+ "phys.age":data[6]
+}
+    answer="Nan"
+    json=ujson.dumps(json)
+    #Connect to WLAN
+    netti=connect_wlan()
+    # Connect to MQTT
+    if not netti:
+        if rot.fifo.has_data():
+            rot.fifo.get()
+        return False
+    try:
+        mqtt_client=connect_mqtt()
+    except Exception as e:
+        print(f"Failed to connect to MQTT: {e}")
+    topic = "hr-data"
+    massage = json
+    mqtt_client.publish(topic, json)
+    data = None
+    return True
 def parse_json(list):
     return [list["data"]["analysis"]["mean_hr_bpm"],list["data"]["analysis"]["mean_rr_ms"],list["data"]["analysis"]["rmssd_ms"],list["data"]["analysis"]["sdnn_ms"],list["data"]["analysis"]["sns_index"],list["data"]["analysis"]["pns_index"],list["data"]["analysis"]["physiological_age"]]
     
@@ -74,7 +107,10 @@ def connect_wlan():
     # Print the IP address of the Pico
     if wlan.isconnected():
         print("Connection successful. Pico IP:", wlan.ifconfig()[0])
-        machine.RTC().datetime()
+        try:
+            ntptime.settime()
+        except Exception as e:
+            pass
         led=Led(22)
         led.on()
         led.brightness(20)
